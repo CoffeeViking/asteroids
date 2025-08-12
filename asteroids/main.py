@@ -1,3 +1,4 @@
+import sys
 import pygame
 from constants import *
 from player import *
@@ -29,10 +30,20 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
+        # Update Objects
         updatable.update(dt)
+        
+        #Check For Collisions
+        for ast in asteroids:
+            if ast.collision_check(player):
+                sys.exit("Game Over!")
+
+        # Draw Background then Drawables
         screen.fill("black")
         for item in drawable:
             item.draw(screen)
+
+        #Move time along
         pygame.display.flip()
         clock.tick(60)
         dt = clock.tick(60) / 1000
